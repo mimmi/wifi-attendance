@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'menu.html' %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Staff</h5>
+                <form class="form-horizontal" action="" method="post" novalidate>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="staff_id">Staff ID</label>
+                            {{ form.staff_id(size=32, class_="form-control", placeholder="Enter Staff ID") }}
+                            {% for error in form.staff_id.errors %}
+                                <span class="text-red">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="name">Staff Name</label>
+                            {{ form.name(size=32, class_="form-control", placeholder="Enter Staff Full Name") }}
+                            {% for error in form.name.errors %}
+                                <span class="text-red">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="method">Detection Method</label><br >
+                            {% for subfield in form.method %}
+                                {{ subfield }}
+                                {{ subfield.label }}<br>
+                            {% endfor %}
+                            {% for error in form.method.errors %}
+                                <span class="text-red">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ip">IP Address</label>
+                            {{ form.ip(size=15, class_="form-control", placeholder="Enter IP Address (Ping)") }}
+                            {% for error in form.ip.errors %}
+                                <span class="text-red">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="mac">Mac Address</label>
+                            {{ form.mac(size=17, class_="form-control", placeholder="Enter MAC Address (ARP)") }}
+                            {% for error in form.mac.errors %}
+                                <span class="text-red">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-12 text-right">
+                            {{ form.hidden_tag() }}
+                            <button type="submit" class="btn btn-primary pull-right">Add Staff</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+{% endblock %}

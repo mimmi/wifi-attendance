@@ -30,9 +30,7 @@ class Staff(UserMixin, db.Model):
     staff_id = db.Column(db.Integer, index=True, unique=True)
     name = db.Column(db.String(128), index=True, unique=True)
     ip = db.Column(db.String(15), index=True, unique=True)
-    port = db.Column(db.Integer, index=False, unique=False)
     mac = db.Column(db.String(17), index=True, unique=True)
-    hostname = db.Column(db.String(32), index=True, unique=True)
     method = db.Column(db.String(5), index=True, unique=False)
     # PING, ARP, PORT
 

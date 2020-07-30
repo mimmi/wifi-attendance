@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'menu.html' %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Staff List</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Staff ID</th>
+                            <th>Name</th>
+                            <th>Method</th>
+                            <th>IP</th>
+                            <th>MAC</th>
+                            <th>Action</th>
+                        <tr>
+                    </thead>
+                    <tbody>
+                        {% for staff in staffs %}
+                        <tr>
+                            <td>{{ staff.staff_id }}</td>
+                            <td>{{ staff.name }}</td>
+                            <td>{{ 'Ping' if staff.method == '1' else 'ARP' }}</td>
+                            <td>{{ staff.ip }}</td>
+                            <td>{{ staff.mac }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="{{ url_for('staff_edit', staff_id = staff.staff_id) }}">Edit</a>
+                                <a class="btn btn-sm btn-danger" href="{{ url_for('staff_delete', staff_id = staff.staff_id) }}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+{% endblock %}

@@ -1,11 +1,14 @@
 from app import app, db
 from flask import Flask, url_for, render_template, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, new_registration
+from app.models import User, Staff, new_registration
 from app.forms import RegistrationForm
 from app.forms import LoginForm
+from app.forms import AddStaffForm
+from app.forms import EditStaffForm
 from werkzeug.urls import url_parse
 from flask import send_from_directory
+from sqlalchemy import exc
 
 @app.route('/')
 @login_required
@@ -50,10 +53,61 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/configuration', methods=['GET'])
-def configuration():
-    return 'Configuration Main'
+@app.route('/add_staff', methods=['GET', 'POST'])
+@login_required
+def add_staff():
+    form = AddStaffForm()
+    if form.validate_on_submit():
+        staff = Staff(staff_id=form.staff_id.data, name=form.name.data, ip=form.ip.data, mac=form.mac.data, method=form.method.data)
+        try:
+            db.session.add(staff)
+            db.session.commit()
+            flash('Congratulations, you have added the staff!')
+        except exc.IntegrityError:
+            db.session.rollback()
+            flash('Could not add the staff, repeated values!')
+        return redirect(url_for('add_staff'))
+    return render_template('add.html', title='Add Staff', form=form)
 
-@app.route('/configuration/commit_time/<int:seconds>', methods=['GET'])
-def set_commit_time(seconds):
-    return "Setting the commit time to {} seconds".format(seconds)
+@app.route('/staff_list', methods=['GET'])
+@login_required
+def staff_list():
+    staffs = Staff.query.all()
+    #pls ignore the fact that staff is the plural of staff -_-
+    return render_template('list.html', title='Staff List', staffs=staffs)
+
+@app.route('/staff_edit/<int:staff_id>', methods=['GET', 'POST'])
+@login_required
+def staff_edit(staff_id):
+    staff = Staff.query.filter_by(staff_id=staff_id).first()
+    if staff is None:
+        flash('Staff does not exist')
+        return redirect(url_for('staff_list'))
+    form = EditStaffForm(obj=staff)
+    if form.validate_on_submit():
+        staff.staff_id = form.staff_id.data
+        staff.name = form.name.data
+        staff.ip = form.ip.data
+        staff.mac = form.mac.data
+        staff.method = form.method.data
+        try:
+            db.session.add(staff)
+            db.session.commit()
+            flash('The staff has been updated!')
+        except exc.IntegrityError:
+            db.session.rollback()
+            flash('Could not update the staff, repeated values!')
+        return redirect(url_for('staff_edit', staff_id=staff.staff_id))
+    return render_template('edit.html', title='Editing Staff', form=form, staff=staff)
+
+@app.route('/staff_delete/<int:staff_id>', methods=['GET'])
+@login_required
+def staff_delete(staff_id):
+    staff = Staff.query.filter_by(staff_id=staff_id).first()
+    if staff is None:
+        flash('Staff does not exist')
+        return redirect(url_for('staff_list'))
+    Staff.query.filter(Staff.staff_id == staff.staff_id).delete()
+    db.session.commit()
+    flash('Staff deleted successfully')
+    return redirect(url_for('staff_list'))

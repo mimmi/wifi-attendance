@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, IntegerField, RadioField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
@@ -26,3 +26,17 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class AddStaffForm(FlaskForm):
+    staff_id = IntegerField('Staff ID', validators=[DataRequired()])
+    name = StringField('Staff Name', validators=[DataRequired()])
+    method = RadioField('Method', choices=[(1,'Ping'), (2,'ARP')], default=1, coerce=int, validators=[DataRequired()])
+    ip = StringField('IP Address', validators=[DataRequired()])
+    mac = StringField('MAC Address', validators=[DataRequired()])
+
+class EditStaffForm(FlaskForm):
+    staff_id = IntegerField('Staff ID', validators=[DataRequired()])
+    name = StringField('Staff Name', validators=[DataRequired()])
+    method = RadioField('Method', choices=[(1,'Ping'), (2,'ARP')], default=1, coerce=int, validators=[DataRequired()])
+    ip = StringField('IP Address', validators=[DataRequired()])
+    mac = StringField('MAC Address', validators=[DataRequired()])

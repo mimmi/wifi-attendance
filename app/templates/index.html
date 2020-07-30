@@ -1,24 +1,4 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    <p>Welcome to Wifi Attendance</p>
-    <div>
-        Options:
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Login</a>
-        {% else %}
-        <a href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
-        <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-    </div>
+{% include 'menu.html' %}
 {% endblock %}
