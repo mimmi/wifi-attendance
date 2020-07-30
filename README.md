@@ -6,18 +6,18 @@ WiFi Attendance System is a Python based web application that automatically dete
   - Uses SQLite Database, you may use another as it uses SQLAlchemy
   - *NIX Systems Supported
 
-# Scan Methods:
+## Scan Methods:
 
   - ARP Scan - Uses MAC Address, Listens to Devices on the Network
   - Ping - Uses IP Address, IPv4 is supported at the moment
   - Port Scan - Uses IP Address and Port, connects to the device on the specified port
 
 
-# Installation
+## Installation
 
 Install python3, python3-pip and python3-venv
 ```sh
-$ sudo apt install python3`
+$ sudo apt install python3
 $ sudo apt install python3-pip
 $ sudo apt install python3-venv
 ```
@@ -41,25 +41,24 @@ $ flask db migrate -m "Installation"
 $ flask db upgrade
 ```
 
-# Run Development Server
+## Run Development Server
 You may use the flask development server to test out the Application before launching:
 ```sh
 $ export FLASK_APP=main.py
 $ flask run --host=0.0.0.0:5000
 ```
 
-# Production
+## Production
 
 Check out the various deployment options for python flask applications: https://flask.palletsprojects.com/en/1.1.x/deploying/
 
-# Todos
+## Todos
 
  - Completion of Scans
  - Support IPv6
  - Support Multiple VLAN's
 
-License
-----
+## License
 
 MIT
 
