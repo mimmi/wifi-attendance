@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+<form class="form-signin" action="" method="post" novalidate>
+    <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="72" height="72">
+    <h2 class="h3 mb-3 font-weight-normal">WiFi Attendance System</h2>
+    <br />
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <hr>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <label for="inputEmail" class="sr-only">{{ form.username.label }}</label>
+    {{ form.username(size=32, class_="form-control", placeholder="Enter Username") }}
+    {% for error in form.username.errors %}
+        <span class="text-red">[{{ error }}]</span>
+    {% endfor %}
+    <label for="inputPassword" class="sr-only">{{ form.password.label }}</label>
+    {{ form.password(size=32, class_="form-control", placeholder="Enter Password") }}
+    {% for error in form.password.errors %}
+        <span class="text-red">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.hidden_tag() }}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    <p class="mt-5 mb-3 text-muted">&copy; <a href="https://twitter.com/_mimrah">Ibrahim Mimrah</a> 2020</p>
+</form>
+</div>
+{% endblock %}
