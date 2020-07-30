@@ -5,13 +5,13 @@ WiFi Attendance System is a Python based web application that automatically dete
   - Python3 and Flask Based
   - Uses SQLite Database, you may use another as it uses SQLAlchemy
   - *NIX Systems Supported
+  
+Note: Incomplete project, this is currently in active development
 
 ## Scan Methods:
 
   - ARP Scan - Uses MAC Address, Listens to Devices on the Network
   - Ping - Uses IP Address, IPv4 is supported at the moment
-  - Port Scan - Uses IP Address and Port, connects to the device on the specified port
-
 
 ## Installation
 
