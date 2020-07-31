@@ -1,5 +1,5 @@
 from app import app, db
-from flask import Flask, url_for, render_template, flash, redirect
+from flask import Flask, url_for, render_template, flash, redirect, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Staff, new_registration
 from app.forms import RegistrationForm
@@ -9,6 +9,7 @@ from app.forms import EditStaffForm
 from werkzeug.urls import url_parse
 from flask import send_from_directory
 from sqlalchemy import exc
+import json
 
 @app.route('/')
 @login_required
@@ -111,3 +112,13 @@ def staff_delete(staff_id):
     db.session.commit()
     flash('Staff deleted successfully')
     return redirect(url_for('staff_list'))
+
+@app.route('/integration', methods=['POST'])
+def integration():
+    content = request.get_json()
+    timestamp = content.get('timestamp')
+    ip = content.get('ip')
+    mac = content.get('mac')
+    if timestamp is not None and ip is not None and mac is not None:
+        flash(timestamp)
+    return render_template('response.html')

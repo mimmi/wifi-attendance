@@ -10,7 +10,7 @@ Note: Incomplete project, this is currently in active development
 
 ## Scan Methods:
 
-  - ARP Scan - Uses MAC Address, Listens to Devices on the Network
+  - ARP Scan - Uses ARP packets to listen for active devices on the network
   - Ping - Uses IP Address, IPv4 is supported at the moment
 
 ## Installation
@@ -45,6 +45,7 @@ $ flask db upgrade
 You may use the flask development server to test out the Application before launching:
 ```sh
 $ export FLASK_APP=main.py
+$ export FLASK_ENV=development
 $ flask run --host=0.0.0.0:5000
 ```
 
