@@ -7,3 +7,4 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    TIME_BREAK_LIMIT = 45       # Break allowed in minutes, after that is considered a checkout

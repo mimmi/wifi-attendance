@@ -7,7 +7,7 @@ from app.forms import LoginForm
 from app.forms import AddStaffForm
 from app.forms import EditStaffForm
 from werkzeug.urls import url_parse
-from flask import send_from_directory
+from flask import send_from_directory, jsonify
 from sqlalchemy import exc
 import json
 
@@ -119,6 +119,16 @@ def integration():
     timestamp = content.get('timestamp')
     ip = content.get('ip')
     mac = content.get('mac')
-    if timestamp is not None and ip is not None and mac is not None:
-        flash(timestamp)
-    return render_template('response.html')
+    if timestamp is not None and mac is not None:
+        # Identification by MAC Address
+        staff = Staff.query.filter_by(mac=mac).first()
+    if timestamp is not None and ip is not None and staff is None:
+        # Identification by IP
+        staff = Staff.query.filter_by(ip=ip).first()
+    if staff is None:
+        response_code = 100
+        response_message = 'Unidentified Addresses'
+    else:
+        response_code = 200
+        response_message = 'Entry made for ' + staff.name
+    return jsonify(response_code=response_code,response_message=response_message)

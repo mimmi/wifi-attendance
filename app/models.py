@@ -32,7 +32,21 @@ class Staff(UserMixin, db.Model):
     ip = db.Column(db.String(15), index=True, unique=True)
     mac = db.Column(db.String(17), index=True, unique=True)
     method = db.Column(db.String(5), index=True, unique=False)
-    # PING, ARP, PORT
+    last_seen = db.Column(db.DateTime, index=False, unique=False)
+    # PING, ARP
 
     def __repr__(self):
         return '<Staff {}>'.format(self.name)
+
+class Attendance(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    staff_id = db.Column(db.Integer, index=True, unique=False)
+    date = db.Column(db.Date, index=True, unique=False)
+    check_in = db.Column(db.Time, index=False, unique=False)
+    check_out = db.Column(db.Time, index=False, unique=False)
+    break_in = db.Column(db.Time, index=False, unique=False)
+    break_out = db.Column(db.Time, index=False, unique=False)
+    method = db.Column(db.String(5), index=True, unique=False)
+
+    def __repr__(self):
+        return '<Event {} {} {}>'.format(self.id, self.staff_id, self.date)
